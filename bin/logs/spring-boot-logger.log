@@ -1,0 +1,38 @@
+2022-07-05 19:30:28,993 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Starting ExamserverApplication on DESKTOP-MS58NDA with PID 15644 (F:\examportal-master\target\classes started by Priyanka in F:\examportal-master)
+2022-07-05 19:30:29,001 DEBUG org.springframework.boot.StartupInfoLogger [restartedMain] Running with Spring Boot v2.3.3.RELEASE, Spring v5.2.8.RELEASE
+2022-07-05 19:30:29,003 INFO org.springframework.boot.SpringApplication [restartedMain] No active profile set, falling back to default profiles: default
+2022-07-05 19:30:29,327 INFO org.springframework.boot.logging.DeferredLog [restartedMain] Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2022-07-05 19:30:29,331 INFO org.springframework.boot.logging.DeferredLog [restartedMain] For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2022-07-05 19:30:32,572 INFO org.springframework.data.repository.config.RepositoryConfigurationDelegate [restartedMain] Bootstrapping Spring Data JPA repositories in DEFERRED mode.
+2022-07-05 19:30:32,801 INFO org.springframework.data.repository.config.RepositoryConfigurationDelegate [restartedMain] Finished Spring Data repository scanning in 202ms. Found 5 JPA repository interfaces.
+2022-07-05 19:30:33,739 INFO org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker [restartedMain] Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@df929bf' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-07-05 19:30:33,752 INFO org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker [restartedMain] Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-07-05 19:30:35,160 INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer [restartedMain] Tomcat initialized with port(s): 8081 (http)
+2022-07-05 19:30:35,202 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Initializing ProtocolHandler ["http-nio-8081"]
+2022-07-05 19:30:35,204 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Starting service [Tomcat]
+2022-07-05 19:30:35,206 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Starting Servlet engine: [Apache Tomcat/9.0.37]
+2022-07-05 19:30:35,591 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Initializing Spring embedded WebApplicationContext
+2022-07-05 19:30:35,594 INFO org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext [restartedMain] Root WebApplicationContext: initialization completed in 6262 ms
+2022-07-05 19:30:35,774 DEBUG org.springframework.web.filter.GenericFilterBean [restartedMain] Filter 'jwtAuthenticationFilter' configured for use
+2022-07-05 19:30:36,764 INFO org.springframework.scheduling.concurrent.ExecutorConfigurationSupport [restartedMain] Initializing ExecutorService 'applicationTaskExecutor'
+2022-07-05 19:30:37,125 INFO org.hibernate.jpa.internal.util.LogHelper [task-1] HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-07-05 19:30:37,487 WARN org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration [restartedMain] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-07-05 19:30:37,608 INFO org.hibernate.Version [task-1] HHH000412: Hibernate ORM core version 5.4.20.Final
+2022-07-05 19:30:38,759 INFO org.hibernate.annotations.common.reflection.java.JavaReflectionManager [task-1] HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2022-07-05 19:30:39,350 INFO org.springframework.security.web.DefaultSecurityFilterChain [restartedMain] Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@80beda, org.springframework.security.web.context.SecurityContextPersistenceFilter@5be9fcdc, org.springframework.security.web.header.HeaderWriterFilter@1f4bf8ae, org.springframework.security.web.authentication.logout.LogoutFilter@235bc3ef, com.exam.config.JwtAuthenticationFilter@4d69247c, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@1582bc71, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@76d1a3fb, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@3ba6efd7, org.springframework.security.web.session.SessionManagementFilter@3f3da9c5, org.springframework.security.web.access.ExceptionTranslationFilter@3af9a310, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@1b065755]
+2022-07-05 19:30:39,695 INFO com.zaxxer.hikari.HikariDataSource [task-1] HikariPool-1 - Starting...
+2022-07-05 19:30:40,730 INFO org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer [restartedMain] LiveReload server is running on port 35729
+2022-07-05 19:30:40,779 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Starting ProtocolHandler ["http-nio-8081"]
+2022-07-05 19:30:41,362 INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer [restartedMain] Tomcat started on port(s): 8081 (http) with context path ''
+2022-07-05 19:30:41,392 INFO org.springframework.data.repository.config.DeferredRepositoryInitializationListener [restartedMain] Triggering deferred initialization of Spring Data repositories…
+2022-07-05 19:30:42,022 INFO com.zaxxer.hikari.HikariDataSource [task-1] HikariPool-1 - Start completed.
+2022-07-05 19:30:42,087 INFO org.hibernate.dialect.Dialect [task-1] HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2022-07-05 19:30:45,380 INFO org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator [task-1] HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-07-05 19:30:45,396 INFO org.springframework.orm.jpa.AbstractEntityManagerFactoryBean [task-1] Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-07-05 19:30:46,301 INFO org.springframework.data.repository.config.DeferredRepositoryInitializationListener [restartedMain] Spring Data repositories initialized!
+2022-07-05 19:30:46,325 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Started ExamserverApplication in 18.432 seconds (JVM running for 22.59)
+2022-07-05 19:31:00,633 INFO org.apache.juli.logging.DirectJDKLog [http-nio-8081-exec-3] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-07-05 19:31:00,634 INFO org.springframework.web.servlet.FrameworkServlet [http-nio-8081-exec-3] Initializing Servlet 'dispatcherServlet'
+2022-07-05 19:31:00,651 INFO org.springframework.web.servlet.FrameworkServlet [http-nio-8081-exec-3] Completed initialization in 17 ms
+2022-07-05 19:31:02,187 ERROR com.exam.service.impl.UserServiceImpl [http-nio-8081-exec-3] User already exists.
+2022-07-05 19:31:02,216 WARN org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver [http-nio-8081-exec-3] Resolved [com.exam.exception.UserFoundException: User with this Username is already there in DB !! try with another one]
