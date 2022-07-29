@@ -6,7 +6,7 @@ import com.exam.model.exam.Category;
 import com.exam.repo.CategoryRepository;
 import com.exam.service.CategoryService;
 
-import org.modelmapper.ModelMapper;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ public class CategoryServiceImpl implements CategoryService {
     private CategoryRepository categoryRepository;
     @Override
     public Category addCategory(Category category) {
-    	logger.info("new categrory added.");
+    	logger.info("new category added.");
         return this.categoryRepository.save(category);
     }
 

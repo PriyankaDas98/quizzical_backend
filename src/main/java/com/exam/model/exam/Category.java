@@ -1,11 +1,7 @@
 package com.exam.model.exam;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
-
-
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.LinkedHashSet;
@@ -42,6 +38,7 @@ public class Category {
        this.description = description;
       this.set = set;
     }
+
 
     public Long getCid() {
         return cid;

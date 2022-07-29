@@ -32,7 +32,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         final String requestTokenHeader = request.getHeader("Authorization");
-//        System.out.println(requestTokenHeader);
         String username = null;
         String jwtToken = null;
         if(requestTokenHeader!=null && requestTokenHeader.startsWith("Bearer "))
@@ -52,7 +51,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
         else{
         	logger.info("Invalid Token");
-//            System.out.println("Invalid Token,not start with bearer");
         }
         //validate
         if(username!=null && SecurityContextHolder.getContext().getAuthentication()==null){

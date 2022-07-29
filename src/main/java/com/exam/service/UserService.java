@@ -19,5 +19,6 @@ public interface UserService {
     //delete user by id
     public void deleteUser(Long userId) throws UserNotFoundException;
 
+    // get all users
 	public Object getUsers();
 }

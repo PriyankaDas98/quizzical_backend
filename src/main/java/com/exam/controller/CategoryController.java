@@ -1,7 +1,6 @@
 package com.exam.controller;
 
 import com.exam.exception.CategoryNotFoundException;
-import com.exam.exception.UserFoundException;
 import com.exam.model.exam.Category;
 import com.exam.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
