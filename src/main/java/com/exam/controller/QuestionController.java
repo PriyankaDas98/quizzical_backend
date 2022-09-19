@@ -1,6 +1,7 @@
 package com.exam.controller;
 
 import com.exam.exception.QuestionNotFoundException;
+import com.exam.exception.QuizNotFoundException;
 import com.exam.model.exam.Question;
 import com.exam.model.exam.Quiz;
 import com.exam.service.QuestionService;
@@ -13,7 +14,8 @@ import javax.validation.Valid;
 import java.util.*;
 
 @RestController
-@CrossOrigin("*")
+//@CrossOrigin("*")
+@CrossOrigin("http://localhost:4200")
 @RequestMapping("/question")
 public class QuestionController {
     @Autowired
@@ -37,7 +39,7 @@ public class QuestionController {
 
     //get all question of any qid
     @GetMapping("/quiz/{qid}")
-    public ResponseEntity<?> getQuestionOfQuiz(@PathVariable("qid") Long qid){
+    public ResponseEntity<?> getQuestionOfQuiz(@PathVariable("qid") Long qid) throws QuizNotFoundException {
         // send numberOfQuestion number of questions not all
         Quiz quiz = this.quizService.getQuiz(qid);
         Set<Question> questions = quiz.getQuestions();
@@ -61,9 +63,8 @@ public class QuestionController {
     }
 
     //get single question
-
     @GetMapping("/{quesId}")
-    public Question get(@PathVariable("qid") Long qid) throws QuestionNotFoundException{
+    public Question get(@PathVariable("quesId") Long qid) throws QuestionNotFoundException{
         return this.questionService.getQuestion(qid);
 
     }
@@ -89,9 +90,9 @@ public class QuestionController {
                 //correct
                 correctAnswers++;
                 double marksSingle = Double.parseDouble(questions.get(0).getQuiz().getMaxMarks())/questions.size();
-                     marksGot += marksSingle;
+                marksGot += marksSingle;
             } if (q.getGivenAnswer()!=null) {
-                       attempted++;
+                attempted++;
             }
         }
         Map<String, Object> map = Map.of("marksGot", marksGot,

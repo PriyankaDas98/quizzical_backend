@@ -7,17 +7,20 @@ import com.exam.model.User;
 import com.exam.model.UserRole;
 import com.exam.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @RestController
 @RequestMapping("/user")
-@CrossOrigin("*")
+//@CrossOrigin("*")
+@CrossOrigin("http://localhost:4200")
 public class UserController {
 
     @Autowired
@@ -25,9 +28,8 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    //creating method
     @PostMapping("/")
-    public User createUser(@Valid @RequestBody User user) throws Exception {
+    public ResponseEntity<User> createUser(@Valid @RequestBody User user) throws UserFoundException {
 
         user.setProfile("default.png");
 
@@ -45,9 +47,8 @@ public class UserController {
         roles.add(userRole);
 
 
-        return this.userService.createUser(user,roles);
+        return new ResponseEntity<>(this.userService.createUser(user,roles), HttpStatus.CREATED);
     }
-
     //getUser
     @GetMapping("/{username}")
     public User getUser(@PathVariable("username") String username) throws UserNotFoundException{
@@ -56,13 +57,15 @@ public class UserController {
     
     //get all users
     @GetMapping("/getUsers")
-    public ResponseEntity<?> getUsers(){
-        return ResponseEntity.ok(this.userService.getUsers());
+    public ResponseEntity<List<User>> getUsers(){
+
+        return new ResponseEntity<>(this.userService.getUsers(), HttpStatus.OK);
     }
 
     //update user
     @PutMapping("/updateUser")
     public User updateUser(@Valid @RequestBody  User user){
+
         return this.userService.updateUser(user);
     }
     //delete user
@@ -72,12 +75,13 @@ public class UserController {
     }
 
     @ExceptionHandler(UserFoundException.class)
-    public ResponseEntity<?> exceptionHandler(UserFoundException ex) {
-        return ResponseEntity.ok(ex.getMessage());
+    public String exceptionHandler(UserFoundException ex) {
+        return ex.getMessage();
     }
     @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<?> exceptionHandler(UserNotFoundException ex) {
-        return ResponseEntity.ok(ex.getMessage());
+    public String exceptionHandler(UserNotFoundException ex) {
+
+        return (ex.getMessage());
     }
 
 

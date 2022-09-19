@@ -1,5 +1,6 @@
 package com.exam.service.impl;
 
+import com.exam.exception.QuizNotFoundException;
 import com.exam.model.exam.Category;
 import com.exam.model.exam.Quiz;
 import com.exam.repo.QuizRepository;
@@ -8,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -33,8 +33,10 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
-    public Quiz getQuiz(Long quizId) {
-        return this.quizRepository.findById(quizId).get();
+    public Quiz getQuiz(Long quizId) throws QuizNotFoundException {
+
+        return this.quizRepository.findById(quizId).orElseThrow(QuizNotFoundException::new);
+
     }
 
     @Override

@@ -1,62 +1,105 @@
 package com.exam.service;
 
+
 import com.exam.exception.UserNotFoundException;
 import com.exam.model.Role;
 import com.exam.model.User;
 import com.exam.model.UserRole;
+import com.exam.repo.RoleRepository;
 import com.exam.repo.UserRepository;
 import com.exam.service.impl.UserServiceImpl;
 import lombok.SneakyThrows;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
-
+import java.util.ArrayList;
 import java.util.HashSet;
-
+import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-@SpringBootTest
 public class UserServiceTest {
-    @Autowired
-    private UserServiceImpl userServiceImpl;
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
-    @MockBean
+    @InjectMocks
+    private UserServiceImpl userService;
+    @Mock
     private UserRepository userRepository;
-
-    @Test
-    @DisplayName("Get all the users")
-    public void getUsersTest(){
-
-        when(userRepository.findAll()).thenReturn(Stream
-                .of(new User(), new User())
-                .collect(Collectors.toList()));
-
-        assertThat(userServiceImpl.getUsers().size()).isEqualTo(2);
+    @Mock
+    private RoleRepository roleRepository;
 
 
-
+    @Before
+    public void init() {
+        MockitoAnnotations.initMocks(this);
     }
 
     @Test
+    public void getAllUsersTest()
+    {
+        List<User> list = new ArrayList<User>();
+        User userOne = new User();
+        User userTwo = new User();
+        User userThree = new User();
+
+        list.add(userOne);
+        list.add(userTwo);
+        list.add(userThree);
+
+        when(userRepository.findAll()).thenReturn(list);
+
+        //test
+        List<User> userList = userService.getUsers();
+
+        assertEquals(3, userList.size());
+        verify(userRepository, times(1)).findAll();
+    }
+    @SneakyThrows
+    @Test
+    public void getUserByUsernameTest() {
+        // setting up dummy object
+        User user = new User();
+        user.setUsername("PD");
+        user.setFirstname("Priyanka");
+        user.setLastname("Das");
+        user.setEmail("pd@gmail.com");
+
+        when(userRepository.findByUsername("PD"))
+                .thenReturn(user);
+
+        //testing service method
+        User userObj = userService.getUser("PD");
+
+        assertEquals("Priyanka", userObj.getFirstname());
+        assertEquals("Das", userObj.getLastname());
+        assertEquals("pd@gmail.com", userObj.getEmail());
+    }
+    @Test
+    public void getUserExceptionTest() {
+        when(userRepository.findByUsername("user")).thenReturn(null);
+        assertThatThrownBy(() -> {
+            userService.getUser("user");
+        }).isInstanceOf(UserNotFoundException.class)
+                .hasMessage("User with this username not found in database !!");
+
+
+    }
+    @Test
     @DisplayName("Create user")
     public void createUserTest() throws Exception {
-
         User user = new User();
-        user.setFirstname("Ria");
-        user.setLastname("Roy");
-        user.setUsername("ria101");
-        user.setPassword(this.bCryptPasswordEncoder.encode("abc"));
+        user.setFirstname("Priya");
+        user.setLastname("Sen");
+        user.setUsername("priya101");
+        user.setPassword("abc");
         user.setEmail("abc@gmail.com");
         user.setProfile("default.png");
         Role role1 = new Role(45L, "NORMAL");
@@ -69,44 +112,36 @@ public class UserServiceTest {
 
         userRoleSet.add(userRole);
 
-
         when(userRepository.save(user)).thenReturn(user);
-        assertThat(userServiceImpl.createUser(user, userRoleSet).getUsername())
+        assertThat(userService.createUser(user, userRoleSet).getUsername())
                 .isEqualTo(user.getUsername());
 
 
     }
-
-    @SneakyThrows
     @Test
-    @DisplayName("Should find user by username")
-    public void getUserTest() {
+    @DisplayName("Update user")
+    public void updateUserTest() throws Exception {
+
         User user = new User();
-        user.setUsername("PD101");
-        when(userRepository.findByUsername("PD101")).thenReturn(user);
-        assertThat(userServiceImpl.getUser("PD101").getUsername())
-                .isEqualTo("PD101");
+        user.setFirstname("Ria");
+        user.setLastname("Sen");
+        user.setUsername("ria101");
+        user.setPassword("abc");
+        user.setEmail("abc@gmail.com");
+        user.setProfile("default.png");
+        Role role1 = new Role(45L, "NORMAL");
+        Set<UserRole> userRoleSet = new HashSet<>();
+        UserRole userRole = new UserRole();
 
+        userRole.setRole(role1);
 
-    }
-    @Test
-    @DisplayName("Should throw UserNotFound exception")
-    public void getUserExceptionTest() {
-        when(userRepository.findByUsername("PD4545")).thenReturn(null);
-        assertThatThrownBy(() -> {
-           userServiceImpl.getUser("PD4545");
-        }).isInstanceOf(UserNotFoundException.class)
-                .hasMessage("User with this username not found in database !!");
+        userRole.setUser(user);
 
+        userRoleSet.add(userRole);
+        when(userRepository.save(user)).thenReturn(user);
+        assertThat(userService.createUser(user, userRoleSet).getUsername())
+                .isEqualTo(user.getUsername());
 
-    }
-    @Test
-    @DisplayName("Delete user by id")
-    public void deleteUserTest() throws UserNotFoundException {
-        User user = new User();
-        user.setId(22L);
-        userServiceImpl.deleteUser(22L);
-        verify(userRepository, times(1)).deleteById(22L);
 
     }
 

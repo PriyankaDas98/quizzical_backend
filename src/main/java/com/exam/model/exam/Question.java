@@ -1,8 +1,5 @@
 package com.exam.model.exam;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 
@@ -26,7 +23,7 @@ public class Question {
     @NotEmpty(message = "Option Cannot be empty")
     private String option4;
 
-    @NotEmpty(message = "Asnswer Cannot be empty")
+    @NotEmpty(message = "Answer Cannot be empty")
     private String answer;
     //this field will not be stored inside db
     @Transient
@@ -35,21 +32,11 @@ public class Question {
     @ManyToOne(fetch = FetchType.EAGER)
     private Quiz quiz;
 
+
     public Question() {
+        //default constructor
     }
 
-    public Question(Long quesId, String content, String image, String option1, String option2, String option3, String option4, String answer, Quiz quiz) {
-        this.quesId = quesId;
-
-        this.content = content;
-        this.image = image;
-        this.option1 = option1;
-        this.option2 = option2;
-        this.option3 = option3;
-        this.option4 = option4;
-        this.answer = answer;
-        this.quiz = quiz;
-    }
 
     public Long getQuesId() {
         return quesId;

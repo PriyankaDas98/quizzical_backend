@@ -13,11 +13,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
-	   private final Logger logger = (Logger) LoggerFactory.getLogger(this.getClass());
-	   
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     @Autowired
     private UserRepository userRepository;
-    
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
@@ -27,7 +27,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             logger.error("User not found");
             throw new UsernameNotFoundException("no User Found");
         }
-//        logger.info(username +" logged in");
+
         return user;
     }
 }

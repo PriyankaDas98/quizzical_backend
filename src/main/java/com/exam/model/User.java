@@ -9,6 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -18,6 +19,7 @@ import java.util.Set;
 
 
 public class User implements UserDetails {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -41,6 +43,7 @@ public class User implements UserDetails {
 
 
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "user")
+
     @JsonIgnore
     private Set<UserRole> userRoles = new HashSet<>();
 
@@ -59,20 +62,10 @@ public class User implements UserDetails {
     }
 
     public User() {
+        //default constructor
     }
 
-    public User(Long id, String username, String password, String firstname, String lastname, String email, String phone, boolean enabled, String profile, Set<UserRole> userRoles) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.email = email;
-        this.phone = phone;
-        this.enabled = enabled;
-        this.profile = profile;
-        this.userRoles = userRoles;
-    }
+
 
     public Long getId() {
         return id;
@@ -163,9 +156,9 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<Authority> set = new HashSet<>();
-        this.userRoles.forEach(userRole -> {
-            set.add(new Authority(userRole.getRole().getRoleName()));
-        });
+        this.userRoles.forEach(userRole ->
+                set.add(new Authority(userRole.getRole().getRoleName()))
+        );
         // to see the authority
         return set;
     }

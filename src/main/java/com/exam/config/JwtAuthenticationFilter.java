@@ -3,6 +3,7 @@ package com.exam.config;
 import com.exam.service.impl.UserDetailsServiceImpl;
 import io.jsonwebtoken.ExpiredJwtException;
 
+import io.jsonwebtoken.MalformedJwtException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ import java.io.IOException;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-	   private final Logger logger = (Logger) LoggerFactory.getLogger(this.getClass());
+	   private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
@@ -40,13 +41,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             jwtToken=requestTokenHeader.substring(7);
             try {
                 username = jwtUtils.extractUsername(jwtToken);
-            }catch(ExpiredJwtException e)
+            }catch (IllegalArgumentException e){
+                logger.warn("unable to get jwt token");
+            }
+            catch(ExpiredJwtException e)
             {
-                logger.warn(jwtToken + "Has expired!");
-                e.printStackTrace();
-            }catch (Exception e)
-            {
-                e.printStackTrace();
+                log.warn("{} has expired", jwtToken);
+            }
+            catch (MalformedJwtException e){
+                log.warn("invalid jwt");
             }
         }
         else{
@@ -55,15 +58,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         //validate
         if(username!=null && SecurityContextHolder.getContext().getAuthentication()==null){
             final UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
-            if(this.jwtUtils.validateToken(jwtToken,userDetails)){
+
+            // to avoid null pointer exception, primitive boolean expression is used
+            if(Boolean.TRUE.equals(this.jwtUtils.validateToken(jwtToken,userDetails))){
                 //token is valid
-                UsernamePasswordAuthenticationToken usernamePasswordAuthentication = new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
+                UsernamePasswordAuthenticationToken usernamePasswordAuthentication =
+                        new UsernamePasswordAuthenticationToken
+                                (userDetails,null,userDetails.getAuthorities());
                 usernamePasswordAuthentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthentication);
             }
             else {
             	logger.error("Token is not valid");
-//                System.out.println("Token is not valid");
             }
 
         }

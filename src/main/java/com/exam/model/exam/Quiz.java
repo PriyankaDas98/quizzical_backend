@@ -6,7 +6,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
@@ -34,18 +33,10 @@ public class Quiz{
     @JsonIgnore
     private Set<Question> questions = new HashSet<>();
     public Quiz() {
+        //default constructor
     }
 
-    public Quiz(Long qid, String title, String description, String maxMarks, String numberOfQuestions, boolean active, Category category, Set<Question> questions) {
-        this.qid = qid;
-        this.title = title;
-        this.description = description;
-        this.maxMarks = maxMarks;
-        this.numberOfQuestions = numberOfQuestions;
-        this.active = active;
-        this.category = category;
-        this.questions = questions;
-    }
+
 
     public Long getQid() {
         return qid;

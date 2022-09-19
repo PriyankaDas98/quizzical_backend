@@ -21,9 +21,10 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 
 @RestController
-@CrossOrigin("*")
+//@CrossOrigin(origins= "*")
+@CrossOrigin("http://localhost:4200")
 public class AuthenticateController {
-   Logger logger = (Logger) LoggerFactory.getLogger(this.getClass());
+   Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -37,13 +38,12 @@ public class AuthenticateController {
 
     //generate token
     @PostMapping("/generate-token")
-    public ResponseEntity<?>generateToken(@RequestBody JwtRequest jwtRequest) throws Exception {
+    public ResponseEntity<JwtResponse>generateToken(@RequestBody JwtRequest jwtRequest) throws Exception {
             try{
 
                 authenticate(jwtRequest.getUsername(),jwtRequest.getPassword());
             }
             catch(UsernameNotFoundException e){
-                e.printStackTrace();
                 throw new UserNotFoundException();
         }
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(jwtRequest.getUsername());
@@ -54,7 +54,7 @@ public class AuthenticateController {
     private void authenticate(String username,String password) throws Exception {
         try{
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username,password));
-            logger.info(username+" logged in.");
+            logger.info("{} logged in.", username);
         }catch (DisabledException e){
             throw  new Exception("User Disabled"+e.getMessage());
         }

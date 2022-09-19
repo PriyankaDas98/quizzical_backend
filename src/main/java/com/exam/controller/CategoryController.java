@@ -8,10 +8,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/category")
-@CrossOrigin("*")
+//@CrossOrigin("*")
+@CrossOrigin("http://localhost:4200")
 public class CategoryController {
 	
 
@@ -31,16 +33,8 @@ public class CategoryController {
         return this.categoryService.getCategory(categoryId);
     }
 
-    //get all category
-//    @GetMapping("/")
-//    public ResponseEntity<?> getCategories(
-//    		@RequestParam(value = "pageNumber", defaultValue = "0", required = false) Integer pageNumber,
-//    		@RequestParam(value = "pageSize", defaultValue = "4", required = false)Integer pageSize
-//    		){
-//        return ResponseEntity.ok(this.categoryService.getCategories(pageNumber,pageSize));
-//    }
     @GetMapping("/")
-    public ResponseEntity<?> getCategories(){
+    public ResponseEntity<Set<Category>> getCategories(){
         return ResponseEntity.ok(this.categoryService.getCategories());
     }
 
@@ -49,11 +43,6 @@ public class CategoryController {
     public Category update(@Valid @RequestBody Category category){
         return this.categoryService.updateCategory(category);
     }
-//    @PutMapping("/{categoryId}")
-//    public Category update(@Valid @PathVariable("categoryId") @RequestBody Category category){
-//
-//        return this.categoryService.updateCategory(category);
-//    }
 
     //delete
     @DeleteMapping("/{categoryId}")
@@ -62,8 +51,8 @@ public class CategoryController {
     }
     
     @ExceptionHandler(CategoryNotFoundException.class)
-    public ResponseEntity<?> exceptionHandler(CategoryNotFoundException ex) {
+    public String exceptionHandler(CategoryNotFoundException ex) {
     	
-        return ResponseEntity.ok(ex.getMessage());
+        return (ex.getMessage());
     }
 }

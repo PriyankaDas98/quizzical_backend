@@ -1,19 +1,21 @@
 package com.exam.controller;
 
-import com.exam.model.exam.Question;
+import com.exam.exception.QuizNotFoundException;
+import com.exam.model.exam.Category;
 import com.exam.model.exam.Quiz;
 import com.exam.service.QuestionService;
 import com.exam.service.QuizService;
-import com.exam.model.exam.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Set;
 
 @RestController
-@CrossOrigin("*")
+//@CrossOrigin("*")
+@CrossOrigin("http://localhost:4200")
 @RequestMapping("/quiz")
 public class QuizController {
 
@@ -36,13 +38,13 @@ public class QuizController {
 
     //get quiz
     @GetMapping("/")
-    public ResponseEntity<?>quizzes(){
+    public ResponseEntity<Set<Quiz>>quizzes(){
         return ResponseEntity.ok(this.quizService.getQuizzes());
     }
 
     //single quiz
     @GetMapping("/{quizId}")
-    public ResponseEntity<?> quiz(@PathVariable("quizId") Long quizId){
+    public ResponseEntity<Quiz> quiz(@PathVariable("quizId") Long quizId) throws QuizNotFoundException {
         return ResponseEntity.ok(this.quizService.getQuiz(quizId));
     }
 

@@ -7,6 +7,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,23 +17,38 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
+import static org.mockito.Mockito.when;
+
 
 @SpringBootTest
-@ActiveProfiles("test")
-
-public class UserRepoTest {
-    @Autowired
-    UserRepository userRepository;
+ class UserRepoTest {
+    @Mock
+    private UserRepository userRepository;
 
     @Test
-    public void CreateUserTest(){
+     void findByUsernameTest(){
+        User expected = getUser();
+        userRepository.save(expected);
+
+        when(userRepository.findByUsername("Akash")).thenReturn(expected);
+
+        User user = userRepository.findByUsername("Akash");
+
+        assertThat(user).isNotNull();
+        assertEquals(user, expected);
+
+    }
+    private User getUser(){
+        //creating a user object
         User user = new User();
-        user.setUsername("rt99");
-        user.setEmail("pd@gmail.com");
-        user.setFirstname("Priyanka");
-        user.setLastname("Das");
-        user.setPassword("password");
-        user.setPhone("9099876654");
+        user.setFirstname("Akash");
+        user.setLastname("Sen");
+        user.setUsername("akash");
+        user.setPassword("abc");
+        user.setEmail("abc@gmail.com");
         user.setProfile("default.png");
         Role role1 = new Role(45L, "NORMAL");
         Set<UserRole> userRoleSet = new HashSet<>();
@@ -41,39 +57,7 @@ public class UserRepoTest {
         userRole.setUser(user);
         userRoleSet.add(userRole);
 
-
-        User savedInDb = userRepository.save(user);
-
-        Assertions.assertThat(savedInDb.getId()).isNotNull();
-
-    }
-    @Test
-    public void getUserTest(){
-        User user = userRepository.findByUsername("pd101");
-        Assertions.assertThat(user.getUsername()).isEqualTo("pd101");
-
-    }
-    @Test
-    @DisplayName("Should get all the users")
-    public void getUsersTest(){
-        List<User> userList = userRepository.findAll();
-        Assertions.assertThat(userList.size()).isGreaterThan(0);
+        return user;
     }
 
-    @Test
-    public void updateUserTest(){
-        User user = new User();
-        user.setUsername("rt99");
-        user.setEmail("pd@gmail.com");
-        user.setFirstname("Tisha");
-        user.setLastname("Das");
-        user.setPassword("password");
-        user.setPhone("9099876654");
-        user.setProfile("default.png");
-        User getFromDb =  userRepository.save(user);
-        getFromDb.setUsername("Tisha");
-        User updatedUser =  userRepository.save(user);
-        Assertions.assertThat(getFromDb.getUsername()).isEqualTo("Tisha");
-
-    }
 }

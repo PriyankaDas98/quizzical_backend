@@ -33,7 +33,7 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public Question getQuestion(Long questionId) throws QuestionNotFoundException {
         return this.questionRepository.findById(questionId).orElseThrow(
-        		()->new QuestionNotFoundException());
+                QuestionNotFoundException::new);
     }
 
     @Override
