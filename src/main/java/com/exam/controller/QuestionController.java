@@ -2,10 +2,14 @@ package com.exam.controller;
 
 import com.exam.exception.QuestionNotFoundException;
 import com.exam.exception.QuizNotFoundException;
+import com.exam.model.User;
 import com.exam.model.exam.Question;
 import com.exam.model.exam.Quiz;
+import com.exam.model.exam.Result;
+import com.exam.repo.UserRepository;
 import com.exam.service.QuestionService;
 import com.exam.service.QuizService;
+import com.exam.service.ResultService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,10 +18,15 @@ import javax.validation.Valid;
 import java.util.*;
 
 @RestController
-//@CrossOrigin("*")
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin("*")
+//@CrossOrigin("http://localhost:4200")
 @RequestMapping("/question")
 public class QuestionController {
+    @Autowired
+    UserRepository userRepository;
+    //result
+    @Autowired
+    ResultService resultService;
     @Autowired
     private QuestionService questionService;
 
@@ -76,25 +85,36 @@ public class QuestionController {
     }
 
     //evaluate quiz
-    @PostMapping("/eval-quiz")
-    public ResponseEntity<?> evalQuiz(@RequestBody List<Question> questions){
-        System.out.println(questions);
+    @PostMapping("/eval-quiz/{userId}")
+    public ResponseEntity<?> evalQuiz(@PathVariable("userId") Long userId,
+                                          @RequestBody List<Question> questions){
         double marksGot = 0;
         int correctAnswers = 0;
         int attempted = 0;
 
         for(Question q : questions){
-            //single question
+            //single question details
             Question question = this.questionService.get(q.getQuesId());
             if(question.getAnswer().equals(q.getGivenAnswer())){
                 //correct
                 correctAnswers++;
+                //calculating marks of a single question (max marks of quiz / no. of questions
                 double marksSingle = Double.parseDouble(questions.get(0).getQuiz().getMaxMarks())/questions.size();
                 marksGot += marksSingle;
             } if (q.getGivenAnswer()!=null) {
                 attempted++;
             }
         }
+        //storing the result
+        Result res = new Result();
+        res.setMarksGot(marksGot);
+        res.setCorrectAnswers(correctAnswers);
+        res.setAttempted(attempted);
+        res.setQuiz(questions.get(0).getQuiz());
+        res.setUser(userRepository.getOne(userId));
+
+        resultService.add(res);
+
         Map<String, Object> map = Map.of("marksGot", marksGot,
                 "correctAnswers", correctAnswers,
                 "attempted",attempted);

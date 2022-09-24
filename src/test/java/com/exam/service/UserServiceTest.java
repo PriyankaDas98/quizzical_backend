@@ -92,58 +92,58 @@ public class UserServiceTest {
 
 
     }
-    @Test
-    @DisplayName("Create user")
-    public void createUserTest() throws Exception {
-        User user = new User();
-        user.setFirstname("Priya");
-        user.setLastname("Sen");
-        user.setUsername("priya101");
-        user.setPassword("abc");
-        user.setEmail("abc@gmail.com");
-        user.setProfile("default.png");
-        Role role1 = new Role(45L, "NORMAL");
-        Set<UserRole> userRoleSet = new HashSet<>();
-        UserRole userRole = new UserRole();
-
-        userRole.setRole(role1);
-
-        userRole.setUser(user);
-
-        userRoleSet.add(userRole);
-
-        when(userRepository.save(user)).thenReturn(user);
-        assertThat(userService.createUser(user, userRoleSet).getUsername())
-                .isEqualTo(user.getUsername());
-
-
-    }
-    @Test
-    @DisplayName("Update user")
-    public void updateUserTest() throws Exception {
-
-        User user = new User();
-        user.setFirstname("Ria");
-        user.setLastname("Sen");
-        user.setUsername("ria101");
-        user.setPassword("abc");
-        user.setEmail("abc@gmail.com");
-        user.setProfile("default.png");
-        Role role1 = new Role(45L, "NORMAL");
-        Set<UserRole> userRoleSet = new HashSet<>();
-        UserRole userRole = new UserRole();
-
-        userRole.setRole(role1);
-
-        userRole.setUser(user);
-
-        userRoleSet.add(userRole);
-        when(userRepository.save(user)).thenReturn(user);
-        assertThat(userService.createUser(user, userRoleSet).getUsername())
-                .isEqualTo(user.getUsername());
-
-
-    }
+//    @Test
+//    @DisplayName("Create user")
+//    public void createUserTest() throws Exception {
+//        User user = new User();
+//        user.setFirstname("Priya");
+//        user.setLastname("Sen");
+//        user.setUsername("priya101");
+//        user.setPassword("abc");
+//        user.setEmail("abc@gmail.com");
+//        user.setProfile("default.png");
+//        Role role1 = new Role(45L, "NORMAL");
+//        Set<UserRole> userRoleSet = new HashSet<>();
+//        UserRole userRole = new UserRole();
+//
+//        userRole.setRole(role1);
+//
+//        userRole.setUser(user);
+//
+//        userRoleSet.add(userRole);
+//
+//        when(userRepository.save(user)).thenReturn(user);
+//        assertThat(userService.createUser(user, userRoleSet).getUsername())
+//                .isEqualTo(user.getUsername());
+//
+//
+//    }
+//    @Test
+//    @DisplayName("Update user")
+//    public void updateUserTest() throws Exception {
+//
+//        User user = new User();
+//        user.setFirstname("Ria");
+//        user.setLastname("Sen");
+//        user.setUsername("ria101");
+//        user.setPassword("abc");
+//        user.setEmail("abc@gmail.com");
+//        user.setProfile("default.png");
+//        Role role1 = new Role(45L, "NORMAL");
+//        Set<UserRole> userRoleSet = new HashSet<>();
+//        UserRole userRole = new UserRole();
+//
+//        userRole.setRole(role1);
+//
+//        userRole.setUser(user);
+//
+//        userRoleSet.add(userRole);
+//        when(userRepository.save(user)).thenReturn(user);
+//        assertThat(userService.createUser(user, userRoleSet).getUsername())
+//                .isEqualTo(user.getUsername());
+//
+//
+//    }
 
 
 }

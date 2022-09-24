@@ -12,8 +12,8 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/category")
-//@CrossOrigin("*")
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin("*")
+//@CrossOrigin("http://localhost:4200")
 public class CategoryController {
 	
 

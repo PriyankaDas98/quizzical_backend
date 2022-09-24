@@ -48,36 +48,36 @@ class UserControllerTest {
         this.mvc = MockMvcBuilders.webAppContextSetup(context).build();
 
     }
-    @Test
-    @DisplayName("create new user")
-    void createUserTest() throws Exception {
-        User user = new User();
-        user.setId(99L);
-        user.setFirstname("Taniya");
-        user.setLastname("Das");
-        user.setPhone("9099876654");
-        user.setUsername("taniya08");
-        user.setEmail("taniya@gmail.com");
-        user.setPassword("password");
-        user.setProfile("default.jpg");
-        Role role1 = new Role(45L, "NORMAL");
-        Set<UserRole> userRoleSet = new HashSet<>();
-        UserRole userRole = new UserRole();
-
-        userRole.setRole(role1);
-
-        userRole.setUser(user);
-
-        userRoleSet.add(userRole);
-        when(userService.createUser(user, userRoleSet)).thenReturn(user);
-        mvc.perform( MockMvcRequestBuilders
-                        .post("/user/")
-                        .content(asJsonString(user))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated());
-
-    }
+//    @Test
+//    @DisplayName("create new user")
+//    void createUserTest() throws Exception {
+//        User user = new User();
+//        user.setId(99L);
+//        user.setFirstname("Taniya");
+//        user.setLastname("Das");
+//        user.setPhone("9099876654");
+//        user.setUsername("taniya08");
+//        user.setEmail("taniya@gmail.com");
+//        user.setPassword("password");
+//        user.setProfile("default.jpg");
+//        Role role1 = new Role(45L, "NORMAL");
+//        Set<UserRole> userRoleSet = new HashSet<>();
+//        UserRole userRole = new UserRole();
+//
+//        userRole.setRole(role1);
+//
+//        userRole.setUser(user);
+//
+//        userRoleSet.add(userRole);
+//        when(userService.createUser(user, userRoleSet)).thenReturn(user);
+//        mvc.perform( MockMvcRequestBuilders
+//                        .post("/user/")
+//                        .content(asJsonString(user))
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .accept(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isCreated());
+//
+//    }
     @Test
     @DisplayName("get all users")
     void getUsersTest() throws Exception

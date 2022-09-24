@@ -21,8 +21,8 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 
 @RestController
-//@CrossOrigin(origins= "*")
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin("*")
+//@CrossOrigin("http://localhost:4200")
 public class AuthenticateController {
    Logger logger = LoggerFactory.getLogger(this.getClass());
 

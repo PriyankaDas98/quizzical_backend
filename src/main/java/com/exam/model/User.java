@@ -9,7 +9,6 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
-
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -19,7 +18,6 @@ import java.util.Set;
 
 
 public class User implements UserDetails {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -43,10 +41,11 @@ public class User implements UserDetails {
 
 
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "user")
-
     @JsonIgnore
     private Set<UserRole> userRoles = new HashSet<>();
 
+//    @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+//    private Result result;
 
 
     public Set<UserRole> getUserRoles() {

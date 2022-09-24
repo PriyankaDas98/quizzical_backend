@@ -30,25 +30,58 @@ public class UserServiceImpl  implements UserService {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 //    creating user
-    public User createUser(User user, Set<UserRole> userRoles) throws UserFoundException {
-        User local = this.userRepository.findByUsername(user.getUsername());
-        if(local !=null){
-
-            logger.error("User {} already exists.",local.getUsername());
-
+//    public User createUser(User user, Set<UserRole> userRoles) throws UserFoundException {
+//        User local = this.userRepository.findByUsername(user.getUsername());
+//        if(local !=null){
+//
+//            logger.error("User {} already exists.",local.getUsername());
+//
+//            throw new UserFoundException();
+//        }
+//        else{
+//            //Assigning all role defined for a users to user
+//            for(UserRole ur: userRoles){
+//                roleRepository.save(ur.getRole());
+//            }
+//            //saving role to user
+//            user.getUserRoles().addAll(userRoles);
+//            local = this.userRepository.save(user);
+//            logger.info("User with {} is registered.",local.getUsername());
+//        }
+//        return local;
+//    }
+    public User createUser(User user) throws UserFoundException {
+        User newUser =  this.userRepository.findByUsername(user.getUsername());
+        if(newUser!=null){
+            logger.error("User {} already exists.",newUser.getUsername());
             throw new UserFoundException();
         }
         else{
-            //Assigning all role defined for a users to user
-            for(UserRole ur: userRoles){
+            user.setProfile("default.png");
+            user.setPassword(this.bCryptPasswordEncoder.encode(user.getPassword()));
+            Set<UserRole> roles = new HashSet<>();
+
+            Role role = new Role();
+            role.setRoleId(45L);
+            role.setRoleName("NORMAL");
+
+            UserRole userRole = new UserRole();
+            userRole.setUser(user);
+            userRole.setRole(role);
+            roles.add(userRole);
+
+            for(UserRole ur: roles){
                 roleRepository.save(ur.getRole());
             }
-            //saving role to user
-            user.getUserRoles().addAll(userRoles);
-            local = this.userRepository.save(user);
-            logger.info("User with {} is registered.",local.getUsername());
+            user.getUserRoles().addAll(roles);
+            newUser = this.userRepository.save(user);
+            logger.info("User with {} is registered.",newUser.getUsername());
         }
-        return local;
+
+
+
+        return newUser;
+
     }
 
 

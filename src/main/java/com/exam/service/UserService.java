@@ -9,7 +9,8 @@ import java.util.List;
 import java.util.Set;
 
 public interface UserService {
-    public User createUser(User user, Set<UserRole> userRoles) throws UserFoundException;
+    public User createUser(User user) throws UserFoundException;
+//    public User createUser(User user, Set<UserRole> userRoles) throws UserFoundException;
 
     //get User by username
     public User getUser(String username) throws UserNotFoundException;

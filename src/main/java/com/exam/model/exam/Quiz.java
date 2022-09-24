@@ -35,7 +35,8 @@ public class Quiz{
     public Quiz() {
         //default constructor
     }
-
+    @OneToMany(mappedBy = "quiz",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private Set<Result> results = new HashSet<>();
 
 
     public Long getQid() {

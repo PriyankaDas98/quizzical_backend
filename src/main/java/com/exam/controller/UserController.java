@@ -19,10 +19,9 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/user")
-//@CrossOrigin("*")
-@CrossOrigin("http://localhost:4200")
-public class UserController {
+@CrossOrigin("*")
 
+public class UserController {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     @Autowired
@@ -31,24 +30,9 @@ public class UserController {
     @PostMapping("/")
     public ResponseEntity<User> createUser(@Valid @RequestBody User user) throws UserFoundException {
 
-        user.setProfile("default.png");
+        return new ResponseEntity<>(this.userService.createUser(user), HttpStatus.CREATED);
 
-        //encoding password(BCryptPassword)
-        user.setPassword(this.bCryptPasswordEncoder.encode(user.getPassword()));
-        Set<UserRole> roles = new HashSet<>();
-        Role role = new Role();
-
-        role.setRoleId(45L);
-        role.setRoleName("NORMAL");
-
-        UserRole userRole = new UserRole();
-        userRole.setUser(user);
-        userRole.setRole(role);
-        roles.add(userRole);
-
-
-        return new ResponseEntity<>(this.userService.createUser(user,roles), HttpStatus.CREATED);
-    }
+        }
     //getUser
     @GetMapping("/{username}")
     public User getUser(@PathVariable("username") String username) throws UserNotFoundException{

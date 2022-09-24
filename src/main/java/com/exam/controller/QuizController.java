@@ -14,8 +14,8 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
-//@CrossOrigin("*")
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin("*")
+//@CrossOrigin("http://localhost:4200")
 @RequestMapping("/quiz")
 public class QuizController {
 
